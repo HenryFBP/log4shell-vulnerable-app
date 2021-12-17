@@ -7,7 +7,7 @@ plugins {
 group = 'fr.christophetd.log4shell'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
-var useLog4j2150 = true
+var useLog4j2150 = true //do we use log4j 2.15.0?
 
 repositories {
     mavenCentral()
