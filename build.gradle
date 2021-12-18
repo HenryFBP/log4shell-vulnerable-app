@@ -7,7 +7,7 @@ plugins {
 group = 'fr.christophetd.log4shell'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
-var useLog4j2150 = false //do we use log4j 2.15.0?
+var log4jArtifact = 'org.apache.logging.log4j:log4j-core:2.14.1'
 
 repositories {
     mavenCentral()
@@ -17,11 +17,10 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
-    if (useLog4j2150) {
-        implementation 'org.springframework.boot:spring-boot-starter-log4j2:2.15.0'
-    } else {
-        implementation 'org.springframework.boot:spring-boot-starter-log4j2:2.6.1'
-    }
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2:2.6.1'
+
+    implementation(log4jArtifact)
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
