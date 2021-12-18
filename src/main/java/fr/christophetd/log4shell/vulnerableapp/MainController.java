@@ -15,7 +15,9 @@ public class MainController {
 
     @GetMapping("/")
     public String index(@RequestHeader("X-Api-Version") String apiVersion) {
-        logger.info("Received a request for API version " + apiVersion);
+        logger.info("Received a request for API version:" + apiVersion);
+//        logger.info("Now using \\%m syntax: %m{}", apiVersion);
+
         return "Hello, world!";
     }
 
